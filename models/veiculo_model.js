@@ -21,7 +21,11 @@ const Veiculo = db.define('curso', {
         type:Sequelize.INTEGER
     },
     tipo: {
-        type:Sequelize.INTEGER
+        type:Sequelize.INTEGER,
+        references: {
+            model: Tipo_veiculo,
+            key: 'id_tipo'
+        }
     },
 }, 
 {  

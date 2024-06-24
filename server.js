@@ -1,31 +1,31 @@
-import express from "express"
-import cors from "cors"
-import db from "./config/database.js"
+import express from 'express';
+import cors from 'cors';
+import db from './config/database.js';
+import veiculoRoutes from './routes/veiculo_routes.js';
+import authRoutes from './routes/auth_routes.js';
+import proprietarioRoutes from './routes/proprietario_routes.js';
 
-import proprietarioRota from "./routes/proprietario_routes.js"
+const PORT = process.env.PORT || 3000;
+const app = express();
 
-const server = express()
-server.use(express.json())
-server.use(cors())
+// Middleware
+app.use(cors());
+app.use(express.json());
 
+// Conexão com o banco de dados
 try {
-    await db.authenticate()
-    console.log("Conexão com o Mysql estabelecida")
-} catch (e) {
-    console.log("Conexão com o Mysql Não estabelecida", e)
+    await db.authenticate();
+    console.log('Conexão com o MySQL estabelecida');
+} catch (error) {
+    console.error('Erro ao conectar com o MySQL:', error);
 }
 
-import veiculo_routes from "./routes/veiculo_routes.js"
+// Rotas
+app.use('/api/veiculos', veiculoRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/proprietarios', proprietarioRoutes);
 
-app.use(express.json());
-
-app.use('/api', veiculo_routes)
-
-import auth_rotes from './routes/auth_routes.js'
-
-const app = express()
-
-app.use(express.json());
-
-server.use(proprietarioRota)
-server.listen(5000, () => console.log("servidor executando em http://localhost:5000"))
+// Iniciar o servidor
+app.listen(PORT, () => {
+    console.log(`Servidor rodando em http://localhost:${PORT}`);
+});

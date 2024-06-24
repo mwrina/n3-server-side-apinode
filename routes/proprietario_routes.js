@@ -4,9 +4,9 @@ import { getProprietarios, createProprietario, updateProprietario, deleteProprie
 
 const router = express.Router()
 
-router.get('/proprietario', getProprietarios)
-router.post('/proprietario', createProprietario)
-router.put('/proprietario/:cpf', updateProprietario)
-router.delete('/proprietario/:cpf', deleteProprietario)
+router.get('/', getProprietarios)
+router.post('/', createProprietario)
+router.put('/:cpf', updateProprietario)
+router.delete('/:cpf', deleteProprietario)
 
 export default router

@@ -1,20 +1,23 @@
-GET http://localhost:5000/proprietario HTTP/1.1
-Content-Type: application/json
 
+# LISTAR PROPRIETÁRIOS
+GET http://localhost:3000/api/proprietarios/ HTTP/1.1
+Content-Type: application/json
 ###
 
-POST http://localhost:5000/proprietario HTTP/1.1
+#CRIAR PROPRIETÁRIO
+POST http://localhost:3000/api/proprietarios/ HTTP/1.1
 Content-Type: application/json
 
 {
     "cpf": 111111111,
     "nome": "João Gui",
-    "fone": 111
+    "fone": 111,
+    "senha": 123
 }
-
 ###
 
-PUT http://localhost:5000/proprietario/111111111 HTTP/1.1
+# EDITAR PROPRIETÁRIO
+PUT http://localhost:3000/api/proprietarios/111111111 HTTP/1.1
 Content-Type: application/json
 
 {
@@ -22,31 +25,57 @@ Content-Type: application/json
     "nome": "João Guilherme Oliveira",
     "fone": 111111
 }
-
 ###
 
-DELETE http://localhost:5000/proprietario/111111111 HTTP/1.1
+#DELETAR PROPRIETÁRIO
+DELETE http://localhost:3000/api/proprietarios/111111111 HTTP/1.1
 Content-Type: application/json
+###
 
 # --------------------------------------
 
-### ADD VEÍCULOS
-POST http://localhost:3000/api/veiculos
+# LOGIN
+POST http://localhost:3000/api/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "placa_veiculo": "ABC1234",
-  "modelo_veiculo": "Fusca",
-  "preco_veiculo": 30000,
-  "proprietario": "12345678901",
-  "tipo": 1
+  "cpf": 111111111,
+  "senha": 123
 }
+###
 
-### ATUALIZAR INFOS VEICULOS
-PUT http://localhost:3000/api/veiculos/ABC1234
+# --------------------------------------
+
+# LISTAR VEÍCULOS
+GET http://localhost:3000/api/veiculos/ HTTP/1.1
+Content-Type: application/json
+###
+
+#LISTAR VEÍCULO + PROPRIETÁRIO
+GET http://localhost:3000/api/veiculos/proprietario HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer SEU_TOKEN_JWT_AQUI
+###
+
+# ADD VEÍCULOS
+POST http://localhost:3000/api/veiculos/
 Content-Type: application/json
 
 {
-  "modelo_veiculo": "Fusca 2.0",
-  "preco_veiculo": 35000
+  "placa": "ABC1234",
+  "modelo": "Ferrari",
+  "preco": 250000,
+  "proprietario": 111111111
 }
+###
+
+# ATUALIZAR INFO VEICULOS
+PUT http://localhost:3000/api/veiculos/3
+Content-Type: application/json
+
+{
+  "modelo": "Fusca 2.0",
+  "preco": 20000000
+}
+
+###

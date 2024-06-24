@@ -13,7 +13,10 @@ const Proprietario = db.define('proprietario', {
    },
    fone: {
     type:Sequelize.INTEGER
-   } 
+   },
+   senha: {
+    type: DataTypes.STRING(50)
+   }
 },{
     timestamps:false,
     freezeTableName:true

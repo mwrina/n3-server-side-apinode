@@ -1,17 +1,19 @@
 import express from 'express';
-import { login } from '../controllers/auth_controller';
 import jwt from 'jsonwebtoken';
+import { login } from '../controllers/auth_controller.js';
+import { listVeiProp } from '../controllers/veiculo_controller.js'; 
 
 const router = express.Router();
-
-const secretKey = 'secretpassword'; // CCHAVE PARA VERIFICAR TOKEN
+const secretKey = 'secretpassword'; 
 
 const verificarToken = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1];
+  const authHeader = req.headers.authorization;
 
-  if (!token) {
+  if (!authHeader) {
     return res.status(401).json({ message: 'Token não fornecido.' });
   }
+
+  const token = authHeader.split(' ')[1];
 
   try {
     const decoded = jwt.verify(token, secretKey);
@@ -28,9 +30,17 @@ router.post('/login', login);
 router.get('/veiculos/proprietario', verificarToken, async (req, res) => {
   const cpfProprietario = req.cpfProprietario;
 
-  // Implemente a lógica para listar veículos do proprietário com o CPF `cpfProprietario`
+  try {
+    
+    const veiculos = await listVeiProp(cpfProprietario);
+
+    res.status(200).json(veiculos);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Erro ao buscar veículos do proprietário.' });
+  }
 });
 
-// ... outras rotas
+// Outras rotas aqui, se houver
 
 export default router;

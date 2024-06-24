@@ -1,9 +1,9 @@
 import { Sequelize } from "sequelize";
 import db from "../config/database.js";
-import Proprietario from "../models/professor_model.js"
-import Tipo_veiculo from "../models/turma_model.js"
+import Proprietario from "../models/proprietario_model.js"
+import Tipo_veiculo from "../models/tipo_model.js"
 
-const Veiculo = db.define('curso', {
+const Veiculo = db.define('veiculo', {
     id_veic: {
         type: Sequelize.INTEGER,
         primaryKey: true
@@ -33,7 +33,7 @@ const Veiculo = db.define('curso', {
     freezeTableName: true
 })
 
-Veiculo.belongsTo(Proprietario, {foreignKey:'proprietario', allowNull:false})
+Veiculo.belongsTo(Proprietario, {foreignKey:'proprietario', as: 'proprietarioAssociation', allowNull:false})
 Veiculo.belongsTo(Tipo_veiculo, {foreignKey:'tipo', allowNull:true})
 
 export default Veiculo

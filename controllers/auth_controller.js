@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import Proprietario from '../models/proprietario_model.js';
 
-const secretKey = 'secretpassword'; // CHAVE SECRETA PARRA ASSINAR O TOKEN
+const secretKey = 'secretpassword'; // Chave secreta para assinar o token
 
 const login = async (req, res) => {
   const { cpf, senha } = req.body;

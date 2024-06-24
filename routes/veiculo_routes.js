@@ -1,6 +1,5 @@
 import express from 'express';
-import { criarVeiculo, listarVeiculos } from '../controllers/veiculoController.js';
-import { listVeiProp } from '../controllers/veiculo_controller.js';
+import { criarVeiculo, listarVeiculos, listVeiProp, updateVeiculo } from '../controllers/veiculo_controller.js';
 import jwt from 'jsonwebtoken';
 
 const router = express.Router();
@@ -8,16 +7,19 @@ const router = express.Router();
 const secretKey = 'secretpassword'; // CHAVE PARA VERIFICAR O TOKEN
 
 const verificarToken = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1];
+  const authHeader = req.headers.authorization;
 
-  if (!token) {
-    return res.status(401).json({ message: 'Token não fornecido.' });
+  if (!authHeader) {
+    // Se não houver token, continua sem autenticação (opcional)
+    return next();
   }
+
+  const token = authHeader.split(' ')[1];
 
   try {
     const decoded = jwt.verify(token, secretKey);
-    req.cpfProprietario = decoded.cpf;
-    next();
+    req.cpfProprietario = decoded.cpf; // Adiciona o CPF decodificado ao objeto req para uso posterior
+    next(); // Chama a próxima função no middleware stack
   } catch (err) {
     console.error(err);
     return res.status(403).json({ message: 'Token inválido.' });
@@ -26,10 +28,12 @@ const verificarToken = (req, res, next) => {
 
 // CRUD
 
-router.post('/veiculos', criarVeiculo);
+router.get('/', listarVeiculos);
 
-router.get('/veiculos', listarVeiculos);
+router.get('/proprietario', verificarToken, listVeiProp);
 
-router.get('/veiculos/proprietario', verificarToken, listarVeiculosPorProprietario);
+router.post('/', verificarToken, criarVeiculo);
+
+router.put('/:id_veic', updateVeiculo); // Removido verificarToken
 
 export default router;

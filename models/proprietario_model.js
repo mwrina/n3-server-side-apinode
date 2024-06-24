@@ -15,7 +15,7 @@ const Proprietario = db.define('proprietario', {
     type:Sequelize.INTEGER
    },
    senha: {
-    type: DataTypes.STRING(50)
+    type: DataTypes.STRING(100)
    }
 },{
     timestamps:false,

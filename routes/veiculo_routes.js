@@ -1,5 +1,5 @@
 import express from 'express';
-import { criarVeiculo, listarVeiculos, listVeiProp, updateVeiculo } from '../controllers/veiculo_controller.js';
+import { criarVeiculo, deletarVeiculo, listarVeiculos, listVeiProp, updateVeiculo } from '../controllers/veiculo_controller.js';
 import jwt from 'jsonwebtoken';
 
 const router = express.Router();
@@ -32,8 +32,10 @@ router.get('/', listarVeiculos);
 
 router.get('/proprietario', verificarToken, listVeiProp);
 
-router.post('/', verificarToken, criarVeiculo);
+router.post('/', criarVeiculo);
 
-router.put('/:id_veic', updateVeiculo); // Removido verificarToken
+router.put('/:id_veic', updateVeiculo);
+
+router.delete('/:id_veic', deletarVeiculo);
 
 export default router;

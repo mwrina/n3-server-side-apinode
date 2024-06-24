@@ -102,3 +102,20 @@ export const updateVeiculo = async (req, res) => {
     res.status(500).json({ message: 'Erro ao atualizar veículo. Verifique os dados fornecidos.' });
   }
 };
+
+export const deletarVeiculo = async (req, res) => {
+  try {
+    await Veiculo.destroy({
+        where: {
+            id_veic: req.params.id_veic
+        }
+    })
+    res.json({
+        "message": "Veículo de id " + req.params.id_veic + " excluído"
+    })
+} catch (e) {
+    console.log("Erro ao excluir registro de veículo", e)
+    
+}
+
+}
